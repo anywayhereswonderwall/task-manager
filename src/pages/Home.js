@@ -1,9 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import x from "../assets/icons/x.svg";
 import bars from "../assets/icons/bars.svg";
+import { auth, db } from "../firebase";
+import { signOut } from "firebase/auth";
+import { useAuth } from "../context/AuthContext";
+import { doc, getDoc } from "firebase/firestore";
+
 const Home = () => {
   const [sidebar, setSidebar] = useState(false);
+  const [userName, setUserName] = useState("");
+  const { dispatch, currentUser } = useAuth();
+  const userId = currentUser.uid;
 
+  const getUserName = async () => {
+    const docRef = doc(db, "userNames", `${userId}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const name = docSnap.data().name;
+      setUserName(name);
+    }
+  };
+
+  const logOut = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch({ type: "LOGOUT" });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    getUserName();
+  }, [currentUser]);
   return (
     <>
       <button onClick={() => setSidebar(!sidebar)} className="sidebar-toggle">
@@ -13,7 +42,10 @@ const Home = () => {
           <img src={bars} alt="bars icon" />
         )}
       </button>
-      <h1 className="heading">Hello, Jon</h1>
+      <h1 className="heading">Hello, {userName}</h1>
+      <button onClick={() => logOut()} className="btn btn-secondary">
+        logout
+      </button>
     </>
   );
 };

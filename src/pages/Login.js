@@ -12,10 +12,9 @@ const Login = () => {
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [createdUser, setCreatedUser] = useState(false);
 
   const navigate = useNavigate();
-  const { dispatch } = useAuth();
+  const { dispatch, createdUser, setCreatedUser } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,9 +25,11 @@ const Login = () => {
           console.log(user);
           dispatch({ type: "LOGIN", payload: user });
           navigate("/home");
+          setCreatedUser(false);
+          setError(false);
         })
         .catch((error) => {
-          console.log(error);
+          setError(true);
         });
     }
   };
@@ -37,6 +38,11 @@ const Login = () => {
     <>
       <div className="form-container">
         <h1 className="heading">Hello!</h1>
+        {createdUser && (
+          <span style={{ color: "#0165ff" }}>
+            Your account has been created! You can now sign in.
+          </span>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="input-container">
             <img className="input-container-icon" src={at} alt="at icon" />

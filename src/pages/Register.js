@@ -5,6 +5,7 @@ import registerImg from "../assets/images/registerImg.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
   const [passwordError, setPasswordError] = useState(false);
@@ -13,6 +14,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
 
+  const { setCreatedUser } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -22,11 +24,12 @@ const Register = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
+          setCreatedUser(true);
+          navigate("/");
         })
         .catch((error) => {
           console.log(error);
         });
-      navigate("/");
     }
   };
 
