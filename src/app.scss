@@ -34,6 +34,9 @@ a {
   font-size: 4rem;
   color: $dark;
   margin: 30px 0;
+  text-align: center;
+  display: block;
+  max-width: 600px;
 }
 input:focus {
   outline-color: $orange;
@@ -86,12 +89,13 @@ button:focus {
 }
 // login and register page
 .form-container {
-  width: 30%;
+  width: 40%;
   height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  padding: 30px;
   p {
     text-align: center;
     font-size: 2.6rem;
@@ -111,14 +115,49 @@ button:focus {
   }
 }
 .image-container {
-  width: 70%;
+  width: 60%;
   height: 100%;
   display: flex;
+  padding: 30px;
   align-items: center;
   justify-content: center;
   img {
     width: 100%;
     max-width: 1200px;
+  }
+}
+.name-form {
+  width: 100%;
+  height: 100%;
+}
+// homepage
+.nav {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1440px;
+  h1 {
+    font-size: 3rem;
+    color: $dark;
+    margin: 30px 30px;
+  }
+  button {
+    font-family: "Poppins", sans-serif;
+    display: block;
+    cursor: pointer;
+    width: 180px;
+    height: 52px;
+    border-radius: 10px;
+    background-color: transparent;
+    color: $blue;
+    border: 2px solid $blue;
+    font-size: 2rem;
+    margin: 30px 30px;
   }
 }
 

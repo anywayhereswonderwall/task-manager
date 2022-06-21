@@ -5,9 +5,10 @@ import { auth, db } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useAuth } from "../context/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
+import NameForm from "../pages/NameForm";
+import Todo from "../components/Todo";
 
 const Home = () => {
-  const [sidebar, setSidebar] = useState(false);
   const [userName, setUserName] = useState("");
   const { dispatch, currentUser } = useAuth();
   const userId = currentUser.uid;
@@ -33,20 +34,19 @@ const Home = () => {
   useEffect(() => {
     getUserName();
   }, [currentUser]);
-  return (
+
+  return userName ? (
     <>
-      <button onClick={() => setSidebar(!sidebar)} className="sidebar-toggle">
-        {sidebar ? (
-          <img src={x} alt="x icon" />
-        ) : (
-          <img src={bars} alt="bars icon" />
-        )}
-      </button>
-      <h1 className="heading">Hello, {userName}</h1>
-      <button onClick={() => logOut()} className="btn btn-secondary">
-        logout
-      </button>
+      <nav className="nav">
+        <h1>Hello, {userName}</h1>
+        <button onClick={() => logOut()}>Sign out</button>
+      </nav>
+      <div className="todos-container">
+        <Todo />
+      </div>
     </>
+  ) : (
+    <NameForm props={{ setUserName }} />
   );
 };
 
